@@ -1,0 +1,26 @@
+[
+    {
+        "school": "Ngee Ann Polytechnic",
+        "date": "2022 - Present",
+        "certificate": "Diploma in Information Technology",
+        "details": [
+            "Relevant coursework: Programming 1 & 2, Back-end development, Front-End Development, Database, Software analysis and design",
+            "CCA: Badminton (Recreational)",
+            "Certificates: Professional Scrum Master I"
+        ]
+    },
+    {
+        "school": "Kranji Secondary School",
+        "date": "2017 - 2021",
+        "certificate": "N-Level Certificate",
+        "details": [
+            "CCA: Badminton"
+        ]
+    },
+    {
+        "school": "Kranji Primary School",
+        "date": "2011 - 2016",
+        "certificate": "PSLE Certificate",
+        "details": []
+    }
+]
