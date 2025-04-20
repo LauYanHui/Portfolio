@@ -187,3 +187,33 @@ async function fetchAndDisplayEducation() {
         console.error('Error fetching education data:', error);
     }
 }
+document.querySelector('.hamburger-menu').addEventListener('click', () => {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.add('active');
+});
+
+// Handle close button click to close menu
+document.querySelector('.close-menu').addEventListener('click', () => {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.add('closing');
+    
+    setTimeout(() => {
+        navLinks.classList.remove('active');
+        navLinks.classList.remove('closing');
+    }, 300); // Match animation duration
+});
+
+// Close menu when a nav link is clicked
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks.classList.contains('active')) {
+            navLinks.classList.add('closing');
+            
+            setTimeout(() => {
+                navLinks.classList.remove('active');
+                navLinks.classList.remove('closing');
+            }, 300);
+        }
+    });
+});

@@ -60,6 +60,101 @@ nav ul li a:hover {
     color: #007bff;
 }
 
+.hamburger-menu {
+    display: none; /* Hidden by default on desktop */
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */
+    transition: background-color 0.3s;
+    scale: 120%;
+}
+
+.hamburger-menu:hover {
+    background-color: #f5f5f5;
+}
+
+.hamburger-menu i {
+    color: black; /* Set icon color to black */
+    font-size: 1.2rem;
+}
+
+.nav-links {
+    display: flex; /* Show by default on desktop */
+    list-style: none;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-links.active {
+    display: flex; /* Show when active */
+    transform: translateX(0); /* Slide into view */
+}
+
+.nav-links li {
+    /* margin-bottom: 1.5rem; Add spacing between links */
+    align-items: center;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem; /* Increase font size for better visibility */
+    font-weight: bold;
+    transition: color 0.3s;
+    align-items: center;
+}
+
+.nav-links li a:hover {
+    color: #007bff;
+}
+
+
+.close-menu {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+    padding: 0.5rem;
+    z-index: 1002; /* Ensure it's above other elements */
+    display: none; /* Hidden by default */
+    transition: transform 0.3s, color 0.3s;
+    outline: none;
+}
+
+/* Show close button when nav is active */
+.nav-links.active .close-menu {
+    display: block;
+    animation: fadeIn 0.3s forwards;
+}
+.close-menu i:focus,
+.close-menu i:active {
+    outline: none;
+    color: inherit;
+}
+.close-menu {
+    -webkit-tap-highlight-color: transparent;
+}
+.close-menu:hover{
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 /* Sections */
 section {
     padding: 5rem 2rem;
@@ -534,3 +629,69 @@ footer a:hover {
     color: #007bff; /* Highlight color */
 }
 
+
+/* mobile view */
+@media(max-width:768px){
+    .hero-content{
+       flex-direction: column;
+       gap: 10px;
+    }
+    .nav-title{
+        font-size: 1rem;
+    }
+    .hamburger-menu {
+        display: block; /* Show hamburger menu on smaller screens */
+    }
+    .nav-links {
+        display: none; /* Hidden by default on mobile */
+    }
+
+    .nav-links.active {
+        display: flex; /* Show when active */
+        flex-direction: column;
+        background: #ffffff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0; /* Make it span full width */
+        height: auto; /* Auto height instead of 100% */
+        width: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        padding: 4rem 2rem 2rem;
+        transform: translateY(-100%); /* Start from above the viewport */
+        animation: slideDown 0.3s forwards; /* Add animation */
+    }
+    
+    .nav-links.closing {
+        animation: slideUp 0.3s forwards; /* Add closing animation */
+    }
+    
+    /* Animation for sliding down from top */
+    @keyframes slideDown {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    
+    /* Animation for sliding up to top */
+    @keyframes slideUp {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(-100%);
+        }
+    }
+    
+    .nav-links li {
+        margin: 0.8rem 0; /* Adjust spacing between menu items */
+        text-align: center; /* Center the text */
+    }
+    .nav-links.active {
+        padding-top: 3rem; /* Leave space for the close button */
+    }
+}
