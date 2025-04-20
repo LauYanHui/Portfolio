@@ -7,7 +7,7 @@
         "image": "Images/MAD.png"
     },
     {
-        "title": "BED project",
+        "title": "Back-end Developemnt project",
         "description": "Created event page that allows user to sign up and withdraw from events. Allows admin to add, modify events.",
         "technologyUsed": "HTML, CSS, JavaScript, NodeJS, MSSQL",
         "link":"https://github.com/cedricongjx/BED2024APR_T06_Assignment2",

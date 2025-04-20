@@ -108,7 +108,27 @@ async function fetchAndDisplayProjects() {
         const carousel = document.querySelector('.carousel');
         const pagination = document.querySelector('.pagination');
         let currentIndex = 0;
-
+        
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        carousel.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        carousel.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const threshold = 50;
+            if (touchEndX + threshold < touchStartX) {
+                goToNext();
+            } else if (touchEndX > touchStartX + threshold) {
+                goToPrev();
+            }
+        }
         // Create project cards
         data.forEach((project, index) => {
             const projectLink = document.createElement('a');
