@@ -54,6 +54,49 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
+// async function fetchAndDisplayProjects() {
+//     try {
+//         const response = await fetch('./Data/projects.json');
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+//         const data = await response.json();
+//         console.log('Projects:', data);
+//         const projectsGrid = document.querySelector('.projects-grid');
+//         data.forEach(project => {
+//             const projectLink = document.createElement('a');
+//             projectLink.href = project.link;
+//             projectLink.target = '_blank';
+//             projectLink.rel = 'noopener noreferrer';
+//             projectLink.classList.add('project-card'); // Make the link act as the card
+            
+//             const projectImage = document.createElement('img');
+//             projectImage.src = project.image;
+//             projectImage.alt = project.title;
+            
+//             const projectContent = document.createElement('div');
+//             projectContent.classList.add('project-content');
+            
+//             const projectTitle = document.createElement('h3');
+//             projectTitle.textContent = project.title;
+            
+//             const projectDescription = document.createElement('p');
+//             projectDescription.textContent = project.description;
+            
+//             const projectTechStack = document.createElement('p');
+//             projectTechStack.innerHTML = `<strong>Technology Used:</strong> ${project.technologyUsed}`;
+            
+//             projectContent.appendChild(projectTitle);
+//             projectContent.appendChild(projectDescription);
+//             projectContent.appendChild(projectTechStack);
+//             projectLink.appendChild(projectImage);
+//             projectLink.appendChild(projectContent);
+//             projectsGrid.appendChild(projectLink);
+//         });
+//     } catch (error) {
+//         console.error('Error fetching project data:', error);
+//     }
+// }
 async function fetchAndDisplayProjects() {
     try {
         const response = await fetch('./Data/projects.json');
@@ -61,15 +104,21 @@ async function fetchAndDisplayProjects() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Projects:', data);
-        const projectsGrid = document.querySelector('.projects-grid');
-        data.forEach(project => {
+        
+        const carousel = document.querySelector('.carousel');
+        const pagination = document.querySelector('.pagination');
+        let currentIndex = 0;
+
+        // Create project cards
+        data.forEach((project, index) => {
             const projectLink = document.createElement('a');
             projectLink.href = project.link;
             projectLink.target = '_blank';
             projectLink.rel = 'noopener noreferrer';
-            projectLink.classList.add('project-card'); // Make the link act as the card
+            projectLink.classList.add('project-card');
+            if (index === 0) projectLink.classList.add('active-card');
             
+            // Add your existing project card content
             const projectImage = document.createElement('img');
             projectImage.src = project.image;
             projectImage.alt = project.title;
@@ -91,8 +140,74 @@ async function fetchAndDisplayProjects() {
             projectContent.appendChild(projectTechStack);
             projectLink.appendChild(projectImage);
             projectLink.appendChild(projectContent);
-            projectsGrid.appendChild(projectLink);
+            
+            carousel.appendChild(projectLink);
+
+            // Create pagination dot
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.setAttribute('data-index', index);
+            pagination.appendChild(dot);
         });
+
+        // Add carousel functionality
+        const cards = document.querySelectorAll('.project-card');
+        const dots = document.querySelectorAll('.dot');
+        const totalCards = cards.length;
+
+        function arrangeCards() {
+            cards.forEach((card, index) => {
+                const offset = index - currentIndex;
+                const zIndex = 5 - Math.abs(offset);
+                const opacity = offset === 0 ? 1 : 0.7;
+                const scale = offset === 0 ? 1.1 : 0.8;
+                const translateX = offset * 60 + '%';
+                const translateZ = offset === 0 ? '50px' : '0';
+                
+                card.style.transform = `translateX(${translateX}) scale(${scale}) translateZ(${translateZ})`;
+                card.style.zIndex = zIndex;
+                card.style.opacity = opacity;
+                
+                if (offset === 0) {
+                    card.classList.add('active-card');
+                } else {
+                    card.classList.remove('active-card');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        arrangeCards(); // Initial arrangement
+
+        // Navigation functions
+        function goToNext() {
+            currentIndex = (currentIndex + 1) % totalCards;
+            arrangeCards();
+        }
+
+        function goToPrev() {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            arrangeCards();
+        }
+
+        // Event listeners
+        document.querySelector('.nav-prev').addEventListener('click', goToPrev);
+        document.querySelector('.nav-next').addEventListener('click', goToNext);
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                currentIndex = parseInt(this.getAttribute('data-index'));
+                arrangeCards();
+            });
+        });
+
     } catch (error) {
         console.error('Error fetching project data:', error);
     }
