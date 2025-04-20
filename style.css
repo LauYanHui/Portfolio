@@ -436,7 +436,7 @@ button:hover {
         left: 30px;
     }
     .carousel-conteinwe{
-        height: 90%;
+        height: 100%;
     }
 }
 
@@ -801,11 +801,11 @@ footer a:hover {
     right: 20px;
 }
 
-/* .pagination {
+.pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-} */
+}
 
 .dot {
     width: 12px;
